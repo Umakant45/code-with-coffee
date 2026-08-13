@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact — Code with Coffee</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <script src="assets/js/partials.js"></script>
+
+  <header class="page-header">
+    <div class="container">
+      <div class="crumbs"><a href="index.html">Home</a> / Contact</div>
+      <span class="eyebrow">Say hello</span>
+      <h1>Let's talk.</h1>
+      <p style="max-width:520px; margin: 1rem auto 0">Questions, catering, partnerships, or just want to share a coffee tip — we'd love to hear from you.</p>
+    </div>
+  </header>
+
+  <section class="section" style="padding-top: 1rem">
+    <div class="container">
+      <div class="layout-2">
+        <div class="panel">
+          <h3>Send a message</h3>
+          <!-- FUTURE: POST /api/contact -->
+          <form id="contactForm" novalidate>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 1rem">
+              <div class="form-row"><label>Name</label><input name="name" required /></div>
+              <div class="form-row"><label>Email</label><input name="email" type="email" required /></div>
+            </div>
+            <div class="form-row"><label>Subject</label><input name="subject" required /></div>
+            <div class="form-row"><label>Message</label><textarea name="message" rows="5" required></textarea></div>
+            <button class="btn btn-primary" type="submit">Send Message</button>
+          </form>
+        </div>
+        <div>
+          <div class="panel">
+            <h3>Visit us</h3>
+            <p>📍 42 Bean Street, Brewtown — 411038</p>
+            <p>🕒 Mon–Sun · 7:00 AM – 11:00 PM</p>
+            <p>📞 +91 98765 43210</p>
+            <p>✉️ hello@codewithcoffee.cafe</p>
+            <div class="social" style="margin-top:1rem">
+              <a href="#" style="background:var(--coffee-700); color:var(--cream-50); padding:0; width:38px; height:38px; border-radius:999px; display:grid; place-items:center">IG</a>
+              <a href="#" style="background:var(--coffee-700); color:var(--cream-50); padding:0; width:38px; height:38px; border-radius:999px; display:grid; place-items:center">X</a>
+              <a href="#" style="background:var(--coffee-700); color:var(--cream-50); padding:0; width:38px; height:38px; border-radius:999px; display:grid; place-items:center">f</a>
+            </div>
+          </div>
+          <div class="panel" style="margin-top:1.25rem">
+            <h3>Find us on the map</h3>
+            <div class="map-ph" aria-label="Map placeholder"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="assets/js/main.js"></script>
+  <script>
+    document.getElementById('contactForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const f = Object.fromEntries(new FormData(e.target));
+      if (!f.name || !f.email || !f.subject || !f.message) { toast('Please fill all fields', 'error'); return; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email)) { toast('Enter a valid email', 'error'); return; }
+      e.target.reset();
+      toast('Message sent — we\'ll be in touch!', 'success');
+    });
+  </script>
+</body>
+</html>

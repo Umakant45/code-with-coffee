@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard — Code with Coffee</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <script src="assets/js/partials.js"></script>
+
+  <main class="section" style="padding-top: calc(var(--nav-h) + 2rem)">
+    <div class="container">
+      <div style="margin-bottom: 2rem">
+        <span class="eyebrow">Dashboard</span>
+        <h1>Welcome back, <span id="userName" style="color:var(--gold-dark)">friend</span> ☕</h1>
+        <p>Here's a snapshot of your account, orders, and rewards.</p>
+      </div>
+
+      <div class="dash">
+        <aside class="dash-side">
+          <div class="me">
+            <div class="avatar" id="avatar" style="width:48px; height:48px">U</div>
+            <div>
+              <b id="sideName">Guest</b><br/>
+              <small style="color:var(--text-muted)" id="sideEmail">not signed in</small>
+            </div>
+          </div>
+          <nav>
+            <a href="#" class="active">📊 Overview</a>
+            <a href="#orders">📦 Orders</a>
+            <a href="#profile">👤 Profile</a>
+            <a href="#addresses">📍 Addresses</a>
+            <a href="#rewards">⭐ Loyalty</a>
+            <a href="cart.html">🛒 Cart</a>
+            <a href="#" id="logoutBtn" style="color:var(--danger)">↩ Logout</a>
+          </nav>
+        </aside>
+
+        <div>
+          <div class="dash-grid" style="margin-bottom: 1.5rem">
+            <div class="stat-card"><span>Total orders</span><b id="statOrders">0</b></div>
+            <div class="stat-card"><span>Brew Points</span><b style="color:var(--gold-dark)">240</b></div>
+            <div class="stat-card"><span>Saved items</span><b id="statWish">0</b></div>
+            <div class="stat-card"><span>Tier</span><b>☕ Gold</b></div>
+          </div>
+
+          <div class="panel" id="orders">
+            <h3>Recent orders</h3>
+            <div id="ordersList"><p style="color:var(--text-muted)">No orders yet. <a href="menu.html" style="color:var(--gold-dark)">Order something delicious →</a></p></div>
+          </div>
+
+          <div class="panel" id="profile">
+            <h3>Profile</h3>
+            <form id="profileForm" style="display:grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div class="form-row"><label>Full name</label><input type="text" id="pName" /></div>
+              <div class="form-row"><label>Email</label><input type="email" id="pEmail" /></div>
+              <div class="form-row"><label>Mobile</label><input type="tel" id="pMobile" placeholder="+91 …" /></div>
+              <div class="form-row"><label>Date of birth</label><input type="date" /></div>
+              <div style="grid-column: 1/-1"><button class="btn btn-primary" type="submit">Save Changes</button></div>
+            </form>
+          </div>
+
+          <div class="panel" id="addresses">
+            <h3>Saved addresses</h3>
+            <p style="color:var(--text-muted)">No addresses saved yet. Add one at checkout and it'll show up here.</p>
+          </div>
+
+          <div class="panel" id="rewards">
+            <h3>Loyalty rewards</h3>
+            <div style="background: linear-gradient(135deg, var(--coffee-700), var(--coffee-500)); color: var(--cream-50); padding: 1.5rem; border-radius: var(--radius); margin-bottom: 1rem;">
+              <div style="display:flex; justify-content:space-between; align-items:center">
+                <div><b style="font-family:var(--font-display); font-size:1.5rem">240 Brew Points</b><br/><small style="opacity:.8">60 points to free coffee 🎉</small></div>
+                <div style="font-size:2rem">⭐</div>
+              </div>
+              <div style="height:6px; background:rgba(255,255,255,.2); border-radius:99px; margin-top:1rem; overflow:hidden">
+                <div style="width:80%; height:100%; background:var(--gold);"></div>
+              </div>
+            </div>
+            <p style="color:var(--text-muted); font-size:.9rem">Earn 1 point per ₹10 spent. Redeem 300 points for a free handcrafted drink.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="assets/js/main.js"></script>
+  <script>
+    const u = API.currentUser() || { name: 'Guest', email: '—' };
+    document.getElementById('userName').textContent = (u.name || 'friend').split(' ')[0];
+    document.getElementById('sideName').textContent = u.name || 'Guest';
+    document.getElementById('sideEmail').textContent = u.email || 'not signed in';
+    document.getElementById('avatar').textContent = (u.name || 'U').slice(0,1).toUpperCase();
+    document.getElementById('pName').value = u.name || '';
+    document.getElementById('pEmail').value = u.email || '';
+    document.getElementById('pMobile').value = u.mobile || '';
+
+    const orders = API.getOrders();
+    document.getElementById('statOrders').textContent = orders.length;
+    document.getElementById('statWish').textContent = API.getWishlist().length;
+    if (orders.length) {
+      document.getElementById('ordersList').innerHTML = orders.slice(0,5).map(o => `
+        <div style="display:flex; justify-content:space-between; padding:.85rem 0; border-bottom:1px solid var(--border)">
+          <div><b>${o.id}</b><br/><small style="color:var(--text-muted)">${new Date(o.date).toLocaleString()}</small></div>
+          <div style="text-align:right"><b>${priceTag(o.total)}</b><br/><small style="color:var(--success)">Delivered</small></div>
+        </div>`).join('');
+    }
+    document.getElementById('profileForm').addEventListener('submit', e => { e.preventDefault(); toast('Profile updated', 'success'); });
+    document.getElementById('logoutBtn').addEventListener('click', e => { e.preventDefault(); API.logout(); toast('Signed out'); setTimeout(()=>location.href='login.html', 600); });
+  </script>
+</body>
+</html>

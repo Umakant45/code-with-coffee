@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login — Code with Coffee</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <script src="assets/js/partials.js"></script>
+
+  <main class="auth-shell">
+    <aside class="auth-art">
+      <span class="eyebrow" style="color:var(--gold)">Welcome back</span>
+      <h2 style="font-size: 2.5rem">Good to see you again.</h2>
+      <p>Your usual is ready when you are. Sign in to track orders, save favorites, and earn Brew Points on every cup.</p>
+    </aside>
+
+    <section class="auth-form">
+      <div class="form-head">
+        <h2>Sign in to your account</h2>
+        <p style="margin-top:.5rem">New here? <a href="signup.html" style="color:var(--gold-dark); font-weight:600">Create an account</a></p>
+      </div>
+      <!-- Future: POST /api/auth/login -->
+      <form id="loginForm" novalidate autocomplete="on">
+        <div class="form-row">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="you@coffee.com" required />
+          <small class="err" id="err-email"></small>
+        </div>
+        <div class="form-row">
+          <label for="password">Password</label>
+          <div class="password-wrap">
+            <input type="password" id="password" name="password" placeholder="Your password" required minlength="6" />
+            <button type="button" class="toggle-eye" aria-label="Toggle visibility" data-eye>👁</button>
+          </div>
+          <small class="err" id="err-password"></small>
+        </div>
+        <div class="form-meta">
+          <label class="checkbox"><input type="checkbox" name="remember" /> Remember me</label>
+          <a href="forgot-password.html" style="color:var(--gold-dark); font-weight:600">
+                   Forgot password?
+          </a>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+
+        <div class="divider">or continue with</div>
+        <div class="social-row">
+          <button type="button" class="social-btn">G  Google</button>
+          <button type="button" class="social-btn"></button>
+          <button type="button" class="social-btn">f  Facebook</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script src="assets/js/main.js"></script>
+  <script>
+    document.querySelector('[data-eye]').addEventListener('click', () => {
+      const p = document.getElementById('password');
+      p.type = p.type === 'password' ? 'text' : 'password';
+    });
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const emailVal = document.getElementById('email').value.trim();
+      const pwVal = document.getElementById('password').value;
+      let ok = true;
+      const err = (id, msg) => { document.getElementById('err-'+id).textContent = msg; document.getElementById(id).parentElement.classList.toggle('error', !!msg); if (msg) ok = false; };
+      err('email', /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal) ? '' : 'Enter a valid email');
+      err('password', pwVal.length >= 6 ? '' : 'Min 6 characters');
+      if (!ok) return;
+      try { await API.login(emailVal, pwVal); toast('Welcome back ☕', 'success'); setTimeout(()=>location.href='dashboard.html', 700); }
+      catch (err2) { toast('Login failed', 'error'); }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,856 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Product — Code with Coffee</title>
+  <meta name="description" content="Product details" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <script src="assets/js/partials.js"></script>
+
+  <main class="section" style="padding-top: calc(var(--nav-h) + 2.5rem)">
+    <div class="container">
+      <div class="crumbs" style="margin-bottom: 1.5rem"><a href="index.html">Home</a> / <a href="menu.html">Menu</a> / <span id="bcName">Item</span></div>
+      <div class="product-grid">
+        <div class="product-img reveal" id="prodImg">☕</div>
+        <div class="reveal">
+          <span class="eyebrow" id="prodCat">Coffee</span>
+          <h1 id="prodName">Loading…</h1>
+          <div style="display:flex; align-items:center; gap:1rem; margin: 1rem 0;">
+            <span class="rating" id="prodRating">★ 0.0</span>
+            <span style="color:var(--text-muted)">· 320 reviews</span>
+          </div>
+          <p id="prodDesc" style="font-size:1.05rem; margin: 1rem 0 1.5rem">—</p>
+          <div style="display:flex; align-items:center; gap:1.5rem; margin: 1rem 0 2rem">
+            <span class="price" id="prodPrice" style="font-size:2rem">₹0</span>
+            <div class="qty">
+              <button id="qDec" aria-label="Decrease">−</button>
+              <span id="qVal">1</span>
+              <button id="qInc" aria-label="Increase">+</button>
+            </div>
+          </div>
+          <!-- Order Customisation -->
+<div class="customisation-box">
+
+  <h3>Customize your order</h3>
+  <p class="customisation-sub">
+    Make your drink exactly the way you like it.
+  </p>
+
+  <!-- Size -->
+  <div class="custom-option">
+    <label for="drinkSize">Size</label>
+    <select id="drinkSize">
+      <option value="small" data-price="0">Small — No extra charge</option>
+      <option value="medium" data-price="20">Medium — +₹20</option>
+      <option value="large" data-price="40">Large — +₹40</option>
+    </select>
+  </div>
+
+  <!-- Milk -->
+  <div class="custom-option">
+    <label for="milkType">Milk</label>
+    <select id="milkType">
+      <option value="regular" data-price="0">Regular Milk — No extra charge</option>
+      <option value="low-fat" data-price="10">Low Fat Milk — +₹10</option>
+      <option value="oat" data-price="30">Oat Milk — +₹30</option>
+      <option value="almond" data-price="30">Almond Milk — +₹30</option>
+    </select>
+  </div>
+
+  <!-- Sugar -->
+  <div class="custom-option">
+    <label for="sugarLevel">Sugar</label>
+    <select id="sugarLevel">
+      <option value="none">No Sugar</option>
+      <option value="less">Less Sugar</option>
+      <option value="regular" selected>Regular Sugar</option>
+      <option value="extra">Extra Sugar</option>
+    </select>
+  </div>
+
+  <!-- Extra Shot -->
+  <div class="custom-option">
+    <label>Extra Espresso Shot</label>
+
+    <div class="custom-counter">
+      <button type="button" id="shotDec">−</button>
+      <span id="shotCount">0</span>
+      <button type="button" id="shotInc">+</button>
+    </div>
+
+    <small>₹40 per extra shot</small>
+  </div>
+
+  <!-- Add-ons -->
+  <div class="custom-option">
+    <label>Add-ons</label>
+
+    <div class="addon-list">
+
+      <label class="addon-item">
+        <input type="checkbox" value="whipped-cream" data-price="30">
+        <span>Whipped Cream</span>
+        <b>+₹30</b>
+      </label>
+
+      <label class="addon-item">
+        <input type="checkbox" value="chocolate" data-price="20">
+        <span>Chocolate</span>
+        <b>+₹20</b>
+      </label>
+
+      <label class="addon-item">
+        <input type="checkbox" value="caramel" data-price="20">
+        <span>Caramel</span>
+        <b>+₹20</b>
+      </label>
+
+    </div>
+  </div>
+
+  <!-- Special Instructions -->
+  <div class="custom-option">
+    <label for="specialInstructions">
+      Special Instructions
+    </label>
+
+    <textarea
+      id="specialInstructions"
+      rows="3"
+      maxlength="200"
+      placeholder="Example: Make it extra hot...">
+    </textarea>
+  </div>
+
+  <!-- Custom Price -->
+  <div class="custom-total">
+    <span>Customised Price</span>
+    <strong id="customTotal">₹0</strong>
+  </div>
+
+</div>
+          <div style="display:flex; gap:.75rem; flex-wrap: wrap">
+            <button class="btn btn-primary" id="addBtn">Add to Cart</button>
+            <button class="btn btn-outline" id="wishBtn">♥ Wishlist</button>
+          </div>
+          <div style="margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); display:grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; text-align:center;">
+            <div><b style="display:block; font-size:.85rem">🚚 Free pickup</b><small style="color:var(--text-muted)">Ready in 10 min</small></div>
+            <div><b style="display:block; font-size:.85rem">🌱 Single origin</b><small style="color:var(--text-muted)">Ethically sourced</small></div>
+            <div><b style="display:block; font-size:.85rem">🔥 Fresh roast</b><small style="color:var(--text-muted)">Under 48 hrs old</small></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+    <!-- Product Reviews -->
+  <section class="section reviews-section">
+    <div class="container">
+
+      <span class="eyebrow" style="display:block; text-align:center;">
+        Customer Feedback
+      </span>
+
+      <h2 class="section-title">
+        What coffee lovers say
+      </h2>
+
+      <p class="section-sub">
+        Share your experience and help other coffee lovers choose their next favorite.
+      </p>
+
+      <div class="reviews-layout">
+
+        <!-- Review Summary -->
+        <aside class="review-summary">
+
+          <div class="review-average" id="reviewAverage">
+            0.0
+          </div>
+
+          <div class="review-stars" id="reviewAverageStars">
+            ☆☆☆☆☆
+          </div>
+
+          <div class="review-count" id="reviewCount">
+            0 reviews
+          </div>
+
+          <div class="rating-bars">
+
+            <div class="rating-bar">
+              <span>5 ★</span>
+              <div class="rating-track">
+                <div class="rating-fill" id="bar5"></div>
+              </div>
+              <span id="count5">0</span>
+            </div>
+
+            <div class="rating-bar">
+              <span>4 ★</span>
+              <div class="rating-track">
+                <div class="rating-fill" id="bar4"></div>
+              </div>
+              <span id="count4">0</span>
+            </div>
+
+            <div class="rating-bar">
+              <span>3 ★</span>
+              <div class="rating-track">
+                <div class="rating-fill" id="bar3"></div>
+              </div>
+              <span id="count3">0</span>
+            </div>
+
+            <div class="rating-bar">
+              <span>2 ★</span>
+              <div class="rating-track">
+                <div class="rating-fill" id="bar2"></div>
+              </div>
+              <span id="count2">0</span>
+            </div>
+
+            <div class="rating-bar">
+              <span>1 ★</span>
+              <div class="rating-track">
+                <div class="rating-fill" id="bar1"></div>
+              </div>
+              <span id="count1">0</span>
+            </div>
+
+          </div>
+
+        </aside>
+
+
+        <!-- Reviews Content -->
+        <div class="reviews-content">
+
+          <!-- Write Review -->
+          <div class="review-form">
+
+            <h3>Write a review</h3>
+
+            <form id="reviewForm">
+
+              <div class="form-row">
+
+                <label for="reviewerName">
+                  Your Name
+                </label>
+
+                <input
+                  type="text"
+                  id="reviewerName"
+                  placeholder="Enter your name"
+                  maxlength="50"
+                  required
+                />
+
+              </div>
+
+
+              <div class="form-row">
+
+                <label>
+                  Your Rating
+                </label>
+
+                <div
+                  class="star-picker"
+                  id="starPicker"
+                  role="radiogroup"
+                  aria-label="Product rating">
+
+                  <button type="button" data-rating="1">★</button>
+                  <button type="button" data-rating="2">★</button>
+                  <button type="button" data-rating="3">★</button>
+                  <button type="button" data-rating="4">★</button>
+                  <button type="button" data-rating="5">★</button>
+
+                </div>
+
+                <small
+                  class="err"
+                  id="err-rating">
+                </small>
+
+              </div>
+
+
+              <div class="form-row">
+
+                <label for="reviewText">
+                  Your Review
+                </label>
+
+                <textarea
+                  id="reviewText"
+                  rows="4"
+                  maxlength="500"
+                  placeholder="Tell us what you loved about this coffee..."
+                  required>
+                </textarea>
+
+              </div>
+
+
+              <button
+                type="submit"
+                class="btn btn-primary">
+
+                Submit Review
+
+              </button>
+
+            </form>
+
+          </div>
+
+
+          <!-- Review List -->
+          <div>
+
+            <h3 style="margin-bottom:1rem;">
+              Customer Reviews
+            </h3>
+
+            <div
+              class="review-list"
+              id="reviewList">
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- Related Products -->
+  <section class="section">
+
+    <div class="container">
+
+      <h2 class="section-title">
+        You might also like
+      </h2>
+
+      <div
+        class="grid-cards"
+        id="relatedGrid">
+      </div>
+
+    </div>
+
+  </section>
+
+  <script src="assets/js/main.js"></script>
+  <script>
+    const id = new URLSearchParams(location.search).get('id') || 'm1';
+    const item = API.getItem(id);
+    if (!item) { location.href = 'menu.html'; }
+    let qty = 1;
+
+    document.getElementById('bcName').textContent = item.name;
+    document.getElementById('prodName').textContent = item.name;
+    document.getElementById('prodCat').textContent = item.cat;
+    document.getElementById('prodDesc').textContent = item.desc;
+    document.getElementById('prodPrice').textContent = priceTag(item.price);
+    document.getElementById('prodRating').textContent = '★ ' + item.rating.toFixed(1);
+    document.getElementById('prodImg').innerHTML = item.img ? `<img src="${item.img}" alt="${item.name}" />` : item.icon;
+
+    document.getElementById('qInc').onclick = () => { qty++; document.getElementById('qVal').textContent = qty; };
+    document.getElementById('qDec').onclick = () => { qty = Math.max(1, qty-1); document.getElementById('qVal').textContent = qty; };
+    document.getElementById('addBtn').onclick = () => {
+
+  // Get selected customisation
+  const sizeSelect = document.getElementById('drinkSize');
+  const milkSelect = document.getElementById('milkType');
+
+  const size = sizeSelect.value;
+  const sizeName = sizeSelect.options[sizeSelect.selectedIndex].text;
+
+  const milk = milkSelect.value;
+  const milkName = milkSelect.options[milkSelect.selectedIndex].text;
+
+  const sugar = document.getElementById('sugarLevel').value;
+
+  const extraShots = Number(
+    document.getElementById('shotCount').textContent
+  );
+
+  // Get selected add-ons
+  const addons = [];
+
+  document
+    .querySelectorAll('.addon-item input:checked')
+    .forEach(addon => {
+      addons.push({
+        id: addon.value,
+        name: addon.parentElement.querySelector('span').textContent,
+        price: Number(addon.dataset.price || 0)
+      });
+    });
+
+  // Special instructions
+  const specialInstructions =
+    document.getElementById('specialInstructions').value.trim();
+
+  // Calculate custom price
+  let customPrice = item.price;
+
+  customPrice += Number(
+    sizeSelect.options[sizeSelect.selectedIndex].dataset.price || 0
+  );
+
+  customPrice += Number(
+    milkSelect.options[milkSelect.selectedIndex].dataset.price || 0
+  );
+
+  customPrice += extraShots * 40;
+
+  addons.forEach(addon => {
+    customPrice += addon.price;
+  });
+
+  // Create customisation object
+  const customization = {
+    size,
+    sizeName,
+    milk,
+    milkName,
+    sugar,
+    extraShots,
+    addons,
+    specialInstructions,
+    customPrice
+  };
+
+  // Add to cart
+  API.addToCart(
+    item.id,
+    qty,
+    customization
+  );
+
+  toast(
+    `${qty} × ${item.name} customized and added to cart`,
+    'success'
+  );
+};
+    const wishBtn = document.getElementById('wishBtn');
+    if (API.getWishlist().includes(item.id)) wishBtn.classList.add('btn-gold');
+    wishBtn.onclick = () => {
+      const on = API.toggleWish(item.id);
+      wishBtn.classList.toggle('btn-gold', on);
+      toast(on ? 'Saved to wishlist' : 'Removed from wishlist');
+    };
+
+    const rel = API.getRelated(item.id);
+    const host = document.getElementById('relatedGrid');
+    host.innerHTML = rel.map(productCard).join('');
+    bindCardActions(host);
+    host.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+        /* ============================================================
+       Product Reviews — Frontend Only
+       Uses localStorage for now.
+       Later this can be replaced with a backend API.
+    ============================================================ */
+
+    const reviewStorageKey = `reviews_${item.id}`;
+
+    let reviews = JSON.parse(
+      localStorage.getItem(reviewStorageKey) || '[]'
+    );
+
+    let selectedRating = 0;
+
+
+    /* ---------- Star Picker ---------- */
+
+    const starButtons =
+      document.querySelectorAll('#starPicker button');
+
+    starButtons.forEach(button => {
+
+      button.addEventListener('click', () => {
+
+        selectedRating =
+          Number(button.dataset.rating);
+
+        updateStarPicker();
+
+      });
+
+    });
+
+
+    function updateStarPicker() {
+
+      starButtons.forEach(button => {
+
+        const rating =
+          Number(button.dataset.rating);
+
+        button.classList.toggle(
+          'active',
+          rating <= selectedRating
+        );
+
+      });
+
+    }
+
+
+    /* ---------- Submit Review ---------- */
+
+    document
+      .getElementById('reviewForm')
+      .addEventListener('submit', (e) => {
+
+        e.preventDefault();
+
+
+        const name =
+          document
+            .getElementById('reviewerName')
+            .value
+            .trim();
+
+
+        const text =
+          document
+            .getElementById('reviewText')
+            .value
+            .trim();
+
+
+        const ratingError =
+          document.getElementById('err-rating');
+
+
+        // Validate rating
+        if (selectedRating === 0) {
+
+          ratingError.textContent =
+            'Please select a rating';
+
+          return;
+
+        }
+
+
+        ratingError.textContent = '';
+
+
+        // Create review
+        const review = {
+
+          id: Date.now(),
+
+          name: name,
+
+          rating: selectedRating,
+
+          text: text,
+
+          date: new Date().toLocaleDateString(
+            'en-IN',
+            {
+              day: 'numeric',
+              month: 'short',
+              year: 'numeric'
+            }
+          )
+
+        };
+
+
+        // Add newest review first
+        reviews.unshift(review);
+
+
+        // Save to browser
+        localStorage.setItem(
+          reviewStorageKey,
+          JSON.stringify(reviews)
+        );
+
+
+        // Reset form
+        document
+          .getElementById('reviewForm')
+          .reset();
+
+
+        selectedRating = 0;
+
+        updateStarPicker();
+
+
+        // Update UI
+        renderReviews();
+
+
+        toast(
+          'Thank you for your review ☕',
+          'success'
+        );
+
+      });
+
+
+    /* ---------- Render Reviews ---------- */
+
+    function renderReviews() {
+
+      const reviewList =
+        document.getElementById('reviewList');
+
+
+      // Empty state
+      if (reviews.length === 0) {
+
+        reviewList.innerHTML = `
+
+          <div class="no-reviews">
+
+            <div style="font-size:2rem;">
+              ☕
+            </div>
+
+            <p style="margin-top:.5rem;">
+              No reviews yet.
+              Be the first to share your experience!
+            </p>
+
+          </div>
+
+        `;
+
+        updateReviewSummary();
+
+        return;
+
+      }
+
+
+      // Render reviews
+      reviewList.innerHTML =
+        reviews.map(review => {
+
+          const initial =
+            review.name
+              .charAt(0)
+              .toUpperCase();
+
+
+          const stars =
+            '★'.repeat(review.rating) +
+            '☆'.repeat(5 - review.rating);
+
+
+          return `
+
+            <article class="review-card">
+
+              <div class="review-head">
+
+                <div class="reviewer">
+
+                  <div class="reviewer-avatar">
+                    ${initial}
+                  </div>
+
+                  <div>
+
+                    <div class="reviewer-name">
+                      ${escapeReviewHTML(review.name)}
+                    </div>
+
+                    <div class="review-date">
+                      ${review.date}
+                    </div>
+
+                  </div>
+
+                </div>
+
+
+                <div class="review-rating">
+                  ${stars}
+                </div>
+
+              </div>
+
+
+              <p class="review-text">
+                ${escapeReviewHTML(review.text)}
+              </p>
+
+
+              <button
+                class="delete-review"
+                type="button"
+                onclick="deleteReview(${review.id})">
+
+                Delete review
+
+              </button>
+
+            </article>
+
+          `;
+
+        }).join('');
+
+
+      updateReviewSummary();
+
+    }
+
+
+    /* ---------- Review Summary ---------- */
+
+    function updateReviewSummary() {
+
+      const total =
+        reviews.length;
+
+
+      const totalRating =
+        reviews.reduce(
+          (sum, review) =>
+            sum + review.rating,
+          0
+        );
+
+
+      const average =
+        total === 0
+          ? 0
+          : totalRating / total;
+
+
+      document
+        .getElementById('reviewAverage')
+        .textContent =
+          average.toFixed(1);
+
+
+      document
+        .getElementById('reviewAverageStars')
+        .textContent =
+          getStars(average);
+
+
+      document
+        .getElementById('reviewCount')
+        .textContent =
+          `${total} review${total === 1 ? '' : 's'}`;
+
+
+      // Rating counts
+      for (let rating = 1; rating <= 5; rating++) {
+
+        const count =
+          reviews.filter(
+            review =>
+              review.rating === rating
+          ).length;
+
+
+        const percentage =
+          total === 0
+            ? 0
+            : (count / total) * 100;
+
+
+        document
+          .getElementById(`bar${rating}`)
+          .style.width =
+            `${percentage}%`;
+
+
+        document
+          .getElementById(`count${rating}`)
+          .textContent =
+            count;
+
+      }
+
+    }
+
+
+    /* ---------- Star Display ---------- */
+
+    function getStars(rating) {
+
+      const rounded =
+        Math.round(rating);
+
+
+      return (
+        '★'.repeat(rounded) +
+        '☆'.repeat(5 - rounded)
+      );
+
+    }
+
+
+    /* ---------- Delete Review ---------- */
+
+    window.deleteReview =
+      function(id) {
+
+        reviews =
+          reviews.filter(
+            review =>
+              review.id !== id
+          );
+
+
+        localStorage.setItem(
+          reviewStorageKey,
+          JSON.stringify(reviews)
+        );
+
+
+        renderReviews();
+
+
+        toast(
+          'Review deleted'
+        );
+
+      };
+
+
+    /* ---------- Prevent HTML Injection ---------- */
+
+    function escapeReviewHTML(value) {
+
+      return value
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+
+    }
+
+
+    // Initial render
+    renderReviews();
+  </script>
+</body>
+</html>

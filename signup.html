@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign up — Code with Coffee</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <script src="assets/js/partials.js"></script>
+
+  <main class="auth-shell">
+    <aside class="auth-art">
+      <span class="eyebrow" style="color:var(--gold)">Join the club</span>
+      <h2 style="font-size: 2.5rem">Your first cup is on us.</h2>
+      <p>Create an account to earn Brew Points, unlock early menu drops, and save your go-to order for one-tap reorders.</p>
+    </aside>
+
+    <section class="auth-form">
+      <div class="form-head">
+        <h2>Create your account</h2>
+        <p style="margin-top:.5rem">Already a member? <a href="login.html" style="color:var(--gold-dark); font-weight:600">Sign in</a></p>
+      </div>
+      <!-- Future: POST /api/auth/signup -->
+      <form id="signupForm" novalidate autocomplete="on">
+        <div class="form-row">
+          <label for="name">Full name</label>
+          <input type="text" id="name" name="name" placeholder="Maya Sharma" required />
+          <small class="err" id="err-name"></small>
+        </div>
+        <div class="form-row">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="you@coffee.com" required />
+          <small class="err" id="err-email"></small>
+        </div>
+        <div class="form-row">
+          <label for="mobile">Mobile number</label>
+          <input type="tel" id="mobile" name="mobile" placeholder="+91 98765 43210" required pattern="[0-9+\s-]{8,15}" />
+          <small class="err" id="err-mobile"></small>
+        </div>
+        <div class="form-row">
+          <label for="password">Password</label>
+          <div class="password-wrap">
+            <input type="password" id="password" name="password" required minlength="6" placeholder="At least 6 characters" />
+            <button type="button" class="toggle-eye" data-eye="password" aria-label="Toggle">👁</button>
+          </div>
+          <small class="err" id="err-password"></small>
+        </div>
+        <div class="form-row">
+          <label for="confirm">Confirm password</label>
+          <div class="password-wrap">
+            <input type="password" id="confirm" name="confirm" required placeholder="Repeat your password" />
+            <button type="button" class="toggle-eye" data-eye="confirm" aria-label="Toggle">👁</button>
+          </div>
+          <small class="err" id="err-confirm"></small>
+        </div>
+        <label class="checkbox" style="margin-bottom: 1rem"><input type="checkbox" required /> I agree to the <a href="terms.html" style="color:var(--gold-dark)">Terms</a> &amp; <a href="privacy.html" style="color:var(--gold-dark)">Privacy Policy</a></label>
+        <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+      </form>
+    </section>
+  </main>
+
+  <script src="assets/js/main.js"></script>
+  <script>
+    document.querySelectorAll('[data-eye]').forEach(b => b.addEventListener('click', () => {
+      const i = document.getElementById(b.dataset.eye);
+      i.type = i.type === 'password' ? 'text' : 'password';
+    }));
+    document.getElementById('signupForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const f = e.target;
+      const data = { name: f.name.value.trim(), email: f.email.value.trim(), mobile: f.mobile.value.trim(), password: f.password.value, confirm: f.confirm.value };
+      let ok = true;
+      const err = (id, msg) => { document.getElementById('err-'+id).textContent = msg; document.getElementById(id).parentElement.classList.toggle('error', !!msg); if (msg) ok = false; };
+      err('name', data.name.length >= 2 ? '' : 'Please enter your full name');
+      err('email', /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) ? '' : 'Enter a valid email');
+      err('mobile', /^[0-9+\s-]{8,15}$/.test(data.mobile) ? '' : 'Enter a valid mobile number');
+      err('password', data.password.length >= 6 ? '' : 'At least 6 characters');
+      err('confirm', data.password === data.confirm ? '' : 'Passwords don\'t match');
+      if (!ok) return;
+      await API.signup(data);
+      toast('Account created — welcome ☕', 'success');
+      setTimeout(() => location.href = 'dashboard.html', 700);
+    });
+  </script>
+</body>
+</html>

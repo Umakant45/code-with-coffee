@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FAQ — Code with Coffee</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <script src="assets/js/partials.js"></script>
+
+  <header class="page-header">
+    <div class="container">
+      <div class="crumbs"><a href="index.html">Home</a> / FAQ</div>
+      <span class="eyebrow">Good Questions</span>
+      <h1>Frequently asked</h1>
+      <p style="max-width:540px; margin: 1rem auto 0">Everything you wanted to know about our coffee, orders, and the café.</p>
+    </div>
+  </header>
+
+  <section class="section" style="padding-top: 1rem">
+    <div class="container" style="max-width: 780px">
+      <div id="faqList"></div>
+    </div>
+  </section>
+
+  <script src="assets/js/main.js"></script>
+  <script>
+    const faqs = [
+      { q: 'Where do your beans come from?', a: 'We source directly from small farms in Ethiopia, Colombia, Brazil, India, and Indonesia. Every bag traces back to its origin.' },
+      { q: 'Do you offer dairy-free milk?', a: 'Yes — oat, almond, soy, and coconut milk are available at no extra cost.' },
+      { q: 'Can I order online for delivery?', a: 'Absolutely. Browse the menu, add to cart, and check out. Delivery is free on orders above ₹500.' },
+      { q: 'Do you have a loyalty program?', a: 'Yes! Earn 1 Brew Point per ₹10 spent and redeem 300 points for a free handcrafted drink.' },
+      { q: 'Is the café laptop-friendly?', a: 'Very. We have fast Wi-Fi, plenty of plug points, and quiet zones in the back during weekdays.' },
+      { q: 'Do you cater for events?', a: 'We do — small office orders to weddings. Email catering@codewithcoffee.cafe for a quote.' },
+      { q: 'Are pets allowed?', a: 'Yes! Well-behaved dogs are always welcome. Water bowls and treats on the house.' },
+      { q: 'What\'s the return policy?', a: 'If your order isn\'t perfect, tell us within 24 hours and we\'ll remake it or refund you — your call.' },
+    ];
+    const host = document.getElementById('faqList');
+    host.innerHTML = faqs.map((f,i) => `
+      <div class="faq-item reveal" style="transition-delay:${i*0.04}s">
+        <button class="faq-q"><span>${f.q}</span><span class="plus">+</span></button>
+        <div class="faq-a"><p style="padding-top:.5rem">${f.a}</p></div>
+      </div>`).join('');
+    host.addEventListener('click', e => {
+      const b = e.target.closest('.faq-q'); if (!b) return;
+      b.parentElement.classList.toggle('open');
+    });
+  </script>
+</body>
+</html>
