@@ -9,7 +9,9 @@
   <link rel="stylesheet" href="assets/css/styles.css" />
 </head>
 <body>
-  <script src="assets/js/partials.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/js/supabase-config.js"></script>
+<script src="assets/js/partials.js"></script>
 
   <main class="section" style="padding-top: calc(var(--nav-h) + 2rem)">
     <div class="container">
@@ -98,6 +100,7 @@
     document.getElementById('pMobile').value = u.mobile || '';
 
     const orders = API.getOrders();
+    API.refreshOrders().catch(()=>{});
     document.getElementById('statOrders').textContent = orders.length;
     document.getElementById('statWish').textContent = API.getWishlist().length;
     if (orders.length) {

@@ -10,7 +10,9 @@
   <link rel="stylesheet" href="assets/css/styles.css" />
 </head>
 <body>
-  <script src="assets/js/partials.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/js/supabase-config.js"></script>
+<script src="assets/js/partials.js"></script>
 
   <main class="section" style="padding-top: calc(var(--nav-h) + 2.5rem)">
     <div class="container">
@@ -356,11 +358,14 @@
   <script src="assets/js/main.js"></script>
   <script>
     const id = new URLSearchParams(location.search).get('id') || 'm1';
-    const item = API.getItem(id);
+    let item = API.getItem(id);
     if (!item) { location.href = 'menu.html'; }
     let qty = 1;
 
-    document.getElementById('bcName').textContent = item.name;
+    function renderProduct() {
+      item = API.getItem(id);
+      if (!item) return;
+      document.getElementById('bcName').textContent = item.name;
     document.getElementById('prodName').textContent = item.name;
     document.getElementById('prodCat').textContent = item.cat;
     document.getElementById('prodDesc').textContent = item.desc;
@@ -851,6 +856,9 @@
 
     // Initial render
     renderReviews();
+    }
+    renderProduct();
+    API.refreshMenu().catch(console.warn).finally(renderProduct);
   </script>
 </body>
 </html>

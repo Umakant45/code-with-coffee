@@ -9,7 +9,9 @@
   <link rel="stylesheet" href="assets/css/styles.css" />
 </head>
 <body>
-  <script src="assets/js/partials.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/js/supabase-config.js"></script>
+<script src="assets/js/partials.js"></script>
 
   <header class="page-header">
     <div class="container">
@@ -57,11 +59,11 @@
       layout.style.display = ''; empty.style.display = 'none';
 
       host.innerHTML = items.map(it => `
-        <div class="cart-item" data-id="${it.id}">
+        <div class="cart-item" data-id="${it.cartItemId}">
           <div class="cart-thumb">${it.img ? `<img src="${it.img}" alt="${it.name}" />` : it.icon}</div>
           <div class="cart-info">
             <b>${it.name}</b>
-            <small>${it.cat} · ${priceTag(it.price)} each</small>
+            <small>${it.cat} · ${priceTag(it.customization?.customPrice ?? it.price)} each</small>
             <div style="margin-top:.5rem" class="qty">
               <button data-act="dec">−</button>
               <span>${it.qty}</span>
@@ -69,7 +71,7 @@
             </div>
           </div>
           <div style="text-align:right">
-            <b>${priceTag(it.price * it.qty)}</b><br/>
+            <b>${priceTag((it.customization?.customPrice ?? it.price) * it.qty)}</b><br/>
             <button class="remove" data-act="rm">Remove</button>
           </div>
         </div>`).join('');
@@ -86,7 +88,7 @@
 
       host.querySelectorAll('.cart-item').forEach(row => {
         const id = row.dataset.id;
-        const cur = API.getCart().find(c => c.id === id).qty;
+        const cur = API.getCart().find(c => c.cartItemId === id).qty;
         row.querySelector('[data-act=inc]').onclick = () => { API.updateQty(id, cur + 1); renderCart(); };
         row.querySelector('[data-act=dec]').onclick = () => { API.updateQty(id, Math.max(1, cur - 1)); renderCart(); };
         row.querySelector('[data-act=rm]').onclick = () => { API.removeFromCart(id); toast('Removed'); renderCart(); };
