@@ -1,8 +1,8 @@
 /* Code with Coffee — Supabase client
    Paste your Supabase Publishable (anon) key below.
    Never put a service_role/secret key in this file. */
-window.CWC_SUPABASE_URL = 'https://sjbbbxsahbfyytiyffg.supabase.co';
-window.CWC_SUPABASE_PUBLISHABLE_KEY = 'YOUR_SUPABASE_PUBLISHABLE_KEY';
+window.CWC_SUPABASE_URL = 'https://sjbbbsxahbfyyttiyffg.supabase.co';
+window.CWC_SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_P-cuCWBpe1aWCyFqxzcLOg_j8LYAj7N';
 
 if (
   window.supabase &&

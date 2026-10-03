@@ -38,33 +38,68 @@
   </section>
 
   <script src="assets/js/main.js"></script>
-  <script>
-    const cats = ['All', 'Coffee', 'Tea', 'Snacks', 'Desserts', 'Breakfast'];
-    let active = 'All', query = '';
+  <script src="assets/js/main.js"></script>
 
-    const chipsHost = document.getElementById('catChips');
-    chipsHost.innerHTML = cats.map(c => `<button class="chip ${c==='All'?'active':''}" data-cat="${c}">${c}</button>`).join('');
-    chipsHost.addEventListener('click', e => {
-      const b = e.target.closest('[data-cat]'); if (!b) return;
-      active = b.dataset.cat;
-      chipsHost.querySelectorAll('.chip').forEach(c => c.classList.toggle('active', c.dataset.cat === active));
-      render();
-    });
-    document.getElementById('menuSearch').addEventListener('input', e => { query = e.target.value.toLowerCase().trim(); render(); });
+<script>
+  const cats = ['All', 'Coffee', 'Tea', 'Snacks', 'Desserts', 'Breakfast'];
+  let active = 'All', query = '';
 
-    function render() {
-      const items = API.getMenu().filter(i =>
-        (active === 'All' || i.cat === active) &&
-        (!query || i.name.toLowerCase().includes(query) || i.cat.toLowerCase().includes(query))
-      );
-      const host = document.getElementById('menuGrid');
-      host.innerHTML = items.map(productCard).join('');
-      document.getElementById('emptyState').style.display = items.length ? 'none' : 'block';
-      bindCardActions(host);
-      // re-trigger reveal
-      host.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
-    }
+  const chipsHost = document.getElementById('catChips');
+
+  chipsHost.innerHTML = cats.map(c =>
+    `<button class="chip ${c === 'All' ? 'active' : ''}" data-cat="${c}">${c}</button>`
+  ).join('');
+
+  chipsHost.addEventListener('click', e => {
+    const b = e.target.closest('[data-cat]');
+    if (!b) return;
+
+    active = b.dataset.cat;
+
+    chipsHost.querySelectorAll('.chip').forEach(c =>
+      c.classList.toggle(
+        'active',
+        c.dataset.cat === active
+      )
+    );
+
     render();
-  </script>
+  });
+
+  document.getElementById('menuSearch').addEventListener('input', e => {
+    query = e.target.value.toLowerCase().trim();
+    render();
+  });
+
+  function render() {
+    const items = API.getMenu().filter(i =>
+      (active === 'All' || i.cat === active) &&
+      (
+        !query ||
+        i.name.toLowerCase().includes(query) ||
+        i.cat.toLowerCase().includes(query)
+      )
+    );
+
+    const host = document.getElementById('menuGrid');
+
+    host.innerHTML = items.map(productCard).join('');
+
+    document.getElementById('emptyState').style.display =
+      items.length ? 'none' : 'block';
+
+    bindCardActions(host);
+
+    host.querySelectorAll('.reveal').forEach(el =>
+      el.classList.add('in')
+    );
+  }
+
+  // Show menu immediately
+  render();
+
+  // Re-render when Supabase menu is loaded
+  window.addEventListener('menu-change', render);
+</script>
 </body>
 </html>

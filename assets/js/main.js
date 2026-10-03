@@ -288,25 +288,87 @@ const API = {
     return MENU;
   },
 
-  async refreshMenu() {
-    if (!CWC_DB) return MENU;
-    const { data, error } = await CWC_DB
-      .from('menu_items')
-      .select('id,item_code,name,description,price,image_url,is_veg,is_available,is_featured,rating,icon,tag,categories(name)')
-      .eq('is_available', true)
-      .order('id');
+ async refreshMenu() {
+  if (!CWC_DB) return MENU;
+
+  try {
+    // Load categories
+    const { data: categories, error: categoryError } =
+      await CWC_DB
+        .from('categories')
+        .select('id,name')
+        .eq('is_active', true)
+        .order('sort_order');
+
+    if (categoryError) {
+      console.warn(
+        'Supabase category load failed:',
+        categoryError.message
+      );
+    }
+
+    const categoryMap = Object.fromEntries(
+      (categories || []).map(category => [
+        category.id,
+        category.name
+      ])
+    );
+
+    // Load available menu items
+    const { data, error } =
+      await CWC_DB
+        .from('menu_items')
+        .select(
+          'id,item_code,name,description,price,image_url,is_veg,is_available,is_featured,rating,icon,tag,category_id'
+        )
+        .eq('is_available', true)
+        .order('id');
 
     if (error) {
-      console.warn('Supabase menu load failed:', error.message);
+      console.warn(
+        'Supabase menu load failed:',
+        error.message
+      );
       return MENU;
     }
 
-    if (data?.length) {
-      MENU.splice(0, MENU.length, ...data.map(mapMenuRow));
-      window.dispatchEvent(new Event('menu-change'));
+    const mappedMenu = (data || []).map(row => ({
+      id: row.item_code || String(row.id),
+      dbId: row.id,
+      name: row.name,
+      cat: categoryMap[row.category_id] || 'Other',
+      price: Number(row.price),
+      rating: Number(row.rating || 0),
+      icon: row.icon || '☕',
+      tag: row.tag || null,
+      img: row.image_url || '',
+      desc: row.description || ''
+    }));
+
+    if (mappedMenu.length) {
+      MENU.splice(
+        0,
+        MENU.length,
+        ...mappedMenu
+      );
+
+      // Tell menu.html to render the new data
+      window.dispatchEvent(
+        new Event('menu-change')
+      );
     }
+
     return MENU;
-  },
+
+  } catch (error) {
+    console.warn(
+      'Supabase menu error:',
+      error.message
+    );
+
+    return MENU;
+  }
+},
 
   getItem(id) {
     return MENU.find(item => String(item.id) === String(id));
@@ -1529,6 +1591,8 @@ document.addEventListener(
     initReveal();
 
     initNewsletter();
+
+    API.refreshMenu();
 
 
     document
